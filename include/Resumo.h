@@ -5,8 +5,8 @@
  *      Author: marcus
  */
 
-#ifndef SRC_RESUMO_H_
-#define SRC_RESUMO_H_
+#ifndef INCLUDE_RESUMO_H_
+#define INCLUDE_RESUMO_H_
 
 #include<string>
 
@@ -23,4 +23,4 @@ private:
     std::string file_;
 };
 
-#endif /* SRC_RESUMO_H_ */
+#endif /* INCLUDE_RESUMO_H_ */

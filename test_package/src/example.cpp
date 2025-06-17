@@ -1,8 +1,7 @@
-#include "Resumo.h"
-
 #include<unistd.h>
 
 #include<string>
+#include "Resumo.h"
 
 int main(const int argc, char* const argv[]) {
     int opt;

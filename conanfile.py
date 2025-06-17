@@ -5,28 +5,33 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 class resumoRecipe(ConanFile):
     name = "resumo"
     version = "0.1"
-    package_type = "application"
+    package_type = "library"
 
     # Optional metadata
     license = ""
     author = "Marcus Chaves"
-    url = ""
+    url = "git@github.com:marvsc/ResumoCriptografico.git"
     description = "Gera o resumo criptografico em SHA-512 do arquivo especificado em outro arquivo especificado"
     topics = ("", "", "")
 
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
+    options = {"shared": [True, False], "fPIC": [True, False]}
+    default_options = {"shared": False, "fPIC": True}
 
     # Sources are located in the same place as this recipe, copy them to the recipe
-    exports_sources = "CMakeLists.txt", "src/*"
+    exports_sources = "CMakeLists.txt", "src/*", "include/*"
 
     def requirements(self):
         self.requires("poco/1.11.0")
 
-    def layout(self):
-        cmake_layout(self)
+    def config_options(self):
+        if self.settings.os == "Windows":
+            self.options.rm_safe("fPIC")
 
     def configure(self):
+        if self.options.shared:
+            self.options.rm_safe("fPIC")
         self.options["poco"].enable_data_postgresql = False
         self.options["poco"].enable_data_mysql = False
         self.options["poco"].enable_activerecord = False
@@ -50,6 +55,9 @@ class resumoRecipe(ConanFile):
         self.options["poco"].enable_xml = False
         self.options["poco"].enable_zip = False
 
+    def layout(self):
+        cmake_layout(self)
+    
     def generate(self):
         deps = CMakeDeps(self)
         deps.generate()
@@ -65,6 +73,6 @@ class resumoRecipe(ConanFile):
         cmake = CMake(self)
         cmake.install()
 
-    
+    def package_info(self):
+        self.cpp_info.libs = ["resumo"]
 
-    
