@@ -7,14 +7,15 @@
 
 #include "Resumo.h"
 
-#include<fstream>
-#include<iostream>
-#include<sstream>
-#include<iomanip>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
-#include<Poco/File.h>
-#include<Poco/Path.h>
-#include<Poco/Crypto/DigestEngine.h>
+#include <Poco/File.h>
+#include <Poco/Path.h>
+
+#include <Poco/Crypto/DigestEngine.h>
 
 
 void Resumo::write_sha512_in_file(const std::string& output_file) const {
@@ -31,10 +32,8 @@ void Resumo::write_sha512_in_file(const std::string& output_file) const {
     const Poco::DigestEngine::Digest& digest = sha512.digest();
     std::ofstream output(output_file);
     output.exceptions(std::ios::badbit | std::ios::failbit);
-    output << std::hex << std::setfill('0');
-    for (unsigned char byte: digest) {
-        output << std::setw(2) << static_cast<int>(byte);
-    }
+    std::string digest_hex(Poco::DigestEngine::digestToHex(digest));
+    output << OPENSSL_buf2hexstr((const unsigned char*) digest_hex.c_str(), digest_hex.size());
     output.close();
 }
 
