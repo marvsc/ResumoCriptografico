@@ -1,3 +1,10 @@
+/*
+ * @file example.cpp
+ * @brief Arquivo de exemplo de implementação
+ * @author Marcus Chaves
+ * @date 2026-01-27
+ */
+
 #include<unistd.h>
 
 #include<string>
@@ -7,6 +14,8 @@ int main(const int argc, char* const argv[]) {
     int opt;
     std::string input_file("");
     std::string output_file("");
+
+    // Parse de opções passadas por parâmetro
     while ((opt = getopt(argc, argv, "i:o:")) != -1) {
         switch (opt) {
         case 'i':
@@ -37,7 +46,10 @@ int main(const int argc, char* const argv[]) {
         return EXIT_FAILURE;
     }
     try {
+        // Instancia o resumo criptográfico baseado no arquivo a ser gerado o resumo
         Resumo resume(input_file);
+
+        // Gera o resumo criptográfico e escreve em disco
         resume.write_sha512_in_file(output_file);
     } catch (std::exception& e) {
         std::printf("Erro de execução: %s\n", e.what());

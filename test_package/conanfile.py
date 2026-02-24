@@ -11,6 +11,7 @@ class resumoTestConan(ConanFile):
 
     def requirements(self):
         self.requires(self.tested_reference_str)
+        self.requires("cppunit/1.15.1")
 
     def build(self):
         cmake = CMake(self)
@@ -24,3 +25,5 @@ class resumoTestConan(ConanFile):
         if can_run(self):
             cmd = os.path.join(self.cpp.build.bindir, "example -i doc.txt -o ../../resources/arquivos/resultado.txt")
             self.run(cmd, env="conanrun")
+            cmd_test = os.path.join(self.cpp.build.bindir, "teste")
+            self.run(cmd_test)

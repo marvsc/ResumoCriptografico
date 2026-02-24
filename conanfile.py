@@ -23,7 +23,7 @@ class resumoRecipe(ConanFile):
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
 
     def requirements(self):
-        self.requires("poco/1.11.0")
+        self.requires("poco/1.13.3")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -54,6 +54,7 @@ class resumoRecipe(ConanFile):
         self.options["poco"].enable_sevenzip = False
         self.options["poco"].enable_xml = False
         self.options["poco"].enable_zip = False
+        self.options["poco"].enable_prometheus = False
 
     def layout(self):
         cmake_layout(self)
