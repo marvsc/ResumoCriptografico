@@ -9,7 +9,7 @@ target_link_libraries(example resumo::resumo)
 
 add_executable(teste src/teste.cpp
                     src/UnitTests/src/ResumoTest.cpp)
-target_link_libraries(teste assinaturadigital::assinaturadigital cppunit::cppunit)
+target_link_libraries(teste resumo:resumo cppunit::cppunit)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/resources/arquivos/doc.txt
 ${CMAKE_CURRENT_BINARY_DIR}/doc.txt
