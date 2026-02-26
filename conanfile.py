@@ -4,7 +4,6 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class resumoRecipe(ConanFile):
     name = "resumo"
-    version = "0.1"
     package_type = "library"
 
     # Optional metadata
