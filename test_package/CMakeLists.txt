@@ -7,7 +7,7 @@ find_package(cppunit CONFIG REQUIRED)
 add_executable(example src/example.cpp)
 target_link_libraries(example resumo::resumo)
 
-add_executable(teste stc/teste.cpp
+add_executable(teste src/teste.cpp
                     src/UnitTests/src/ResumoTest.cpp)
 target_link_libraries(teste assinaturadigital::assinaturadigital cppunit::cppunit)
 
