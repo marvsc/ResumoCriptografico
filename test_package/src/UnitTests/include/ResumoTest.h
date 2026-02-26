@@ -4,8 +4,8 @@
  * @author Marcus Chaves
  */
 
-#ifndef TEST_PACKAGE_SRC_UNITTESTS_SRC_RESUMOTEST_H_
-#define TEST_PACKAGE_SRC_UNITTESTS_SRC_RESUMOTEST_H_
+#ifndef TEST_PACKAGE_SRC_UNITTESTS_INCLUDE_RESUMOTEST_H_
+#define TEST_PACKAGE_SRC_UNITTESTS_INCLUDE_RESUMOTEST_H_
 
 #include <cppunit/TestFixture.h>
 
@@ -37,4 +37,4 @@ public:
     void teste_construtor_com_path();
 };
 
-#endif /* TEST_PACKAGE_SRC_UNITTESTS_SRC_RESUMOTEST_H_ */
+#endif /* TEST_PACKAGE_SRC_UNITTESTS_INCLUDE_RESUMOTEST_H_ */
