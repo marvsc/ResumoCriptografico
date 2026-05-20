@@ -10,6 +10,7 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(ResumoTest);
 
 void ResumoTest::setUp() {
+    // Remove o arquivo de resultado do teste anterior, caso exista
     if (std::filesystem::exists(OUTPUT_FILE)) {
         std::filesystem::remove(OUTPUT_FILE);
     }
