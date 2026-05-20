@@ -7,6 +7,7 @@ class resumoRecipe(ConanFile):
     package_type = "library"
 
     # Optional metadata
+    # TODO: Add license, author, url, description, topics, etc.
     license = ""
     author = "Marcus Chaves"
     url = "git@github.com:marvsc/ResumoCriptografico.git"
@@ -22,7 +23,7 @@ class resumoRecipe(ConanFile):
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
 
     def requirements(self):
-        self.requires("poco/1.13.3")
+        self.requires("poco/[>=1.13.3]")
 
     def config_options(self):
         if self.settings.os == "Windows":

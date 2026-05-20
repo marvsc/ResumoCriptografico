@@ -16,6 +16,13 @@ void ResumoTest::setUp() {
     }
 }
 
+void ResumoTest::tearDown() {
+    // Remove o arquivo de resultado do teste, caso exista
+    if (std::filesystem::exists(OUTPUT_FILE)) {
+        std::filesystem::remove(OUTPUT_FILE);
+    }
+}
+
 void ResumoTest::teste_construtor_basico() {
     Resumo resumo;
     resumo.set_file(INPUT_FILE);

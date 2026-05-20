@@ -31,6 +31,11 @@ public:
     void setUp() override;
 
     /*
+     * @brief Método de limpeza do teste, executado após cada teste.
+     */
+    void tearDown() override;
+
+    /*
      * @brief Teste instanciando o Resumo com contrutor sem parâmetros.
      */
     void teste_construtor_basico();
