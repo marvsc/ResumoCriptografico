@@ -23,7 +23,7 @@ class resumoTestConan(ConanFile):
 
     def test(self):
         if can_run(self):
-            cmd = os.path.join(self.cpp.build.bindir, "example -i doc.txt -o ../../resources/arquivos/resultado.txt")
+            cmd = os.path.join(self.cpp.build.bindir, "example -i doc.txt -o resultado.txt")
             self.run(cmd, env="conanrun")
             cmd_test = os.path.join(self.cpp.build.bindir, "teste")
             self.run(cmd_test)

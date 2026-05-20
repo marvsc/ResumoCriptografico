@@ -9,7 +9,7 @@
 #define TEST_PACKAGE_SRC_UNITTESTS_INCLUDE_RESUMOMACROS_H_
 
 #define INPUT_FILE "doc.txt"
-#define OUTPUT_FILE "../../resources/arquivos/resultado.txt"
+#define OUTPUT_FILE "resultado_teste_unitario.txt"
 
 
 #endif /* TEST_PACKAGE_SRC_UNITTESTS_INCLUDE_RESUMOMACROS_H_ */

@@ -9,6 +9,12 @@
 // Registra o suite de testes
 CPPUNIT_TEST_SUITE_REGISTRATION(ResumoTest);
 
+void ResumoTest::setUp() {
+    if (std::filesystem::exists(OUTPUT_FILE)) {
+        std::filesystem::remove(OUTPUT_FILE);
+    }
+}
+
 void ResumoTest::teste_construtor_basico() {
     Resumo resumo;
     resumo.set_file(INPUT_FILE);

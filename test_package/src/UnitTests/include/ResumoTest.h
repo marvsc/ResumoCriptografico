@@ -26,6 +26,11 @@ class ResumoTest : public CppUnit::TestFixture {
 public:
 
     /*
+     * @brief Método de configuração do teste, executado antes de cada teste.
+     */
+    void setUp() override;
+
+    /*
      * @brief Teste instanciando o Resumo com contrutor sem parâmetros.
      */
     void teste_construtor_basico();
