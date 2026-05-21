@@ -27,7 +27,7 @@ void Resumo::write_sha512_in_file(const std::string& output_file) const {
     }
 
     // Define exceções para arquivo corrompido e falha na leitura
-    file_stream.exceptions(std::ios::badbit | std::ios::failbit);
+    file_stream.exceptions(std::ios::badbit);
 
     // Define o algoritmo a ser utilizado
     Poco::Crypto::DigestEngine sha512(MESSAGE_DIGEST_ALGORITHM);
@@ -35,9 +35,9 @@ void Resumo::write_sha512_in_file(const std::string& output_file) const {
     // Atualiza o algoritmo com o conteúdo do arquivo lendo em blocos
     // para evitar carregar arquivos grandes inteiros em memória.
     std::vector<char> buffer(BUFFER_SIZE);
-    while (file_stream.good()) {
-        file_stream.read(buffer.data(), static_cast<std::streamsize>(BUFFER_SIZE));
-        std::streamsize read_bytes = file_stream.gcount();
+    std::streamsize read_bytes;
+    while (file_stream.read(buffer.data(), static_cast<std::streamsize>(BUFFER_SIZE)) ||
+            (read_bytes = file_stream.gcount()) > 0) {
         if (read_bytes > 0) {
 
             // Atualiza o algoritmo com os bytes lidos

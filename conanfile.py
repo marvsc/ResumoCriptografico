@@ -7,8 +7,7 @@ class resumoRecipe(ConanFile):
     package_type = "library"
 
     # Optional metadata
-    # TODO: Add license, author, url, description, topics, etc.
-    license = ""
+    license = "GPL-3.0-only"
     author = "Marcus Chaves"
     url = "git@github.com:marvsc/ResumoCriptografico.git"
     description = "Gera o resumo criptografico em SHA-512 do arquivo especificado em outro arquivo especificado"
