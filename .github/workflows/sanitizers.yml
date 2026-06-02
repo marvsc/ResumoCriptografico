@@ -1,4 +1,4 @@
-name: CI - Sanitizers (Conan)
+name: Sanitizers
 
 on:
   push:
@@ -23,10 +23,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake pkg-config ninja-build python3-pip
 
-      - name: Setup Conan (v2)
-        uses: conan-io/setup-conan@v2
+      - name: Install and Setup Conan
+        uses: conan-io/setup-conan@v1
         with:
-          version: '2'
+           version: 2.25.2
 
       - name: Install Conan dependencies
         env:
