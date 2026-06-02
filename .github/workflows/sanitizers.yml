@@ -79,17 +79,21 @@ jobs:
       - name: Build and run test_package against installed package
         run: |
           set -euo pipefail
+
+          # Instala pendencias e gera os toolchains do cmake através do conan
+          conan install test_package --build=missing -s build_type=Debug
+
           # Configura e compila o pacote de testes
-          cmake -S test_package -B test_build \
+          cmake -S test_package -B build \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_PREFIX_PATH=$PWD/build/install \
-            -DCMAKE_TOOLCHAIN_FILE=../build/Debug/generators/conan_toolchain.cmake || true
-          cmake --build test_build -- -j$(nproc) || true
+            -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake || true
+          cmake --build test_package/build -- -j$(nproc) || true
 
           # Executa os testes unitários com os sanitizers habilitados
-          if [ -x test_build/teste ]; then
+          if [ -x test_package/build/teste ]; then
             echo "Running test package executable teste"
-            ./test_build/teste || true
+            ./test_package/build/teste || true
           else
             echo "No test binary found; skipping run"
           fi
