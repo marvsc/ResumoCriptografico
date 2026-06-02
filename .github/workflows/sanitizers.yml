@@ -66,7 +66,7 @@ jobs:
           # Configura o projeto via cmake para passar as flags dos sanitizers
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake \
             -DCMAKE_C_FLAGS="${SAN_FLAGS}" \
             -DCMAKE_CXX_FLAGS="${SAN_FLAGS}" \
             -DCMAKE_EXE_LINKER_FLAGS="${LINK_FLAGS}" \
@@ -83,7 +83,7 @@ jobs:
           cmake -S test_package -B test_build \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_PREFIX_PATH=$PWD/build/install \
-            -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake || true
+            -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake || true
           cmake --build test_build -- -j$(nproc) || true
 
           # Executa os testes unitários com os sanitizers habilitados
