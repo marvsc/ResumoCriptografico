@@ -4,8 +4,6 @@ on:
       tags:
          - 'v[0-9]+.[0-9]+.[0-9]+'
 
-# TODO: Adicionar sanitizers
-
 permissions:
    contents: write
 
@@ -13,7 +11,8 @@ jobs:
    build-local-and-publish:
       runs-on: ubuntu-latest
       steps:
-         - uses: actions/checkout@v4
+         - name: Checkout repository
+           uses: actions/checkout@v4
 
          - name: Install and Setup Conan
            uses: conan-io/setup-conan@v1
@@ -26,7 +25,9 @@ jobs:
 
          - name: Configure
            run: |
+              # Instala dependencias e gera toolchains do cmake via conan
               conan install . --build=missing
+              # configura o projeto via cmake
               cmake -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
 
          - name: Compile
@@ -73,7 +74,8 @@ jobs:
    build-cache-and-upload:
       runs-on: ubuntu-latest
       steps:
-         - uses: actions/checkout@v4
+         - name: Checkout repository
+           uses: actions/checkout@v4
 
          - name: Install and Setup Conan
            uses: conan-io/setup-conan@v1
@@ -82,6 +84,7 @@ jobs:
 
          - name: Configure Remote
            run: |
+              # Adiciona o repositório do cloudsmith aos remotos para publicar artefato
               conan remote add cloudsmith https://conan.cloudsmith.io/${{ github.actor }}/${{ secrets.CLOUDSMITH_WORKSPACE }}/
               conan remote login cloudsmith ${{ secrets.CLOUDSMITH_USER }} -p ${{ secrets.CLOUDSMITH_TOKEN }}
 
