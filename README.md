@@ -42,7 +42,7 @@ Gera resumo criptográfico SHA-512 de arquivo em disco.
     tar zxvf libresumo-v<versão>.tgz -C <diretório a descompactar>
     ```
 
-### 🛆 CMake
+### 📜 CMake
 
 1. Clonar o projeto:
 
