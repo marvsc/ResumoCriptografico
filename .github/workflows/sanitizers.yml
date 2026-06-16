@@ -67,7 +67,6 @@ jobs:
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake \
-            -DCMAKE_C_FLAGS="${SAN_FLAGS}" \
             -DCMAKE_CXX_FLAGS="${SAN_FLAGS}" \
             -DCMAKE_EXE_LINKER_FLAGS="${LINK_FLAGS}" \
             -DCMAKE_SHARED_LINKER_FLAGS="${LINK_FLAGS}"
@@ -87,7 +86,17 @@ jobs:
           cmake -S test_package -B test_package/build \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_PREFIX_PATH=$PWD/build/install \
-            -DCMAKE_TOOLCHAIN_FILE=test_package/build/Debug/generators/conan_toolchain.cmake || true
+            -DCMAKE_TOOLCHAIN_FILE=test_package/build/Debug/generators/conan_toolchain.cmake \
+            -DCMAKE_CXX_FLAGS="${SAN_FLAGS}" \
+            -DCMAKE_EXE_LINKER_FLAGS="${LINK_FLAGS}" \
+            -DCMAKE_SHARED_LINKER_FLAGS="${LINK_FLAGS}" \
+            -DPoco_DIR=../build/Debug/generators/ \
+            -DPCRE2_DIR=../build/Debug/generators/ \
+            -DBZip2_DIR=../build/Debug/generators/ \
+            -DZLIB_DIR=../build/Debug/generators/ \
+            -Dutf8proc_DIR=../build/Debug/generators/ \
+            -DOpenSSL_DIR=../build/Debug/generators/ \
+            -Dresumo_DIR=build/cmake/ || true
           cmake --build test_package/build -- -j$(nproc) || true
 
           # Executa os testes unitários com os sanitizers habilitados
