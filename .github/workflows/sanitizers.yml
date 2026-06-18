@@ -31,16 +31,8 @@ jobs:
       - name: Install Conan dependencies
         env:
           SANITIZER: ${{ matrix.sanitizer }}
-          SAN_FLAGS: ${{
-          matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' ||
-          matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' ||
-          '-fsanitize=undefined -fno-sanitize-recover=undefined -g'
-          }}
-          LINK_FLAGS: ${{
-          matrix.sanitizer == 'asan' && '-fsanitize=address' ||
-          matrix.sanitizer == 'tsan' && '-fsanitize=thread' ||
-          '-fsanitize=undefined'
-          }}
+          SAN_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' || matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' || '-fsanitize=undefined -fno-sanitize-recover=undefined -g' }}
+          LINK_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address' || matrix.sanitizer == 'tsan' && '-fsanitize=thread' || '-fsanitize=undefined' }}
           CC: ${{ matrix.sanitizer == 'tsan' && 'clang' || 'gcc' }}
           CXX: ${{ matrix.sanitizer == 'tsan' && 'clang++' || 'g++' }}
         run: |
@@ -69,16 +61,8 @@ jobs:
 
       - name: Build and run test_package against installed package
         env:
-          SAN_FLAGS: ${{
-          matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' ||
-          matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' ||
-          '-fsanitize=undefined -fno-sanitize-recover=undefined -g'
-          }}
-          LINK_FLAGS: ${{
-          matrix.sanitizer == 'asan' && '-fsanitize=address' ||
-          matrix.sanitizer == 'tsan' && '-fsanitize=thread' ||
-          '-fsanitize=undefined'
-          }}
+          SAN_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' || matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' || '-fsanitize=undefined -fno-sanitize-recover=undefined -g' }}
+          LINK_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address' || matrix.sanitizer == 'tsan' && '-fsanitize=thread' || '-fsanitize=undefined' }}
           CC: ${{ matrix.sanitizer == 'tsan' && 'clang' || 'gcc' }}
           CXX: ${{ matrix.sanitizer == 'tsan' && 'clang++' || 'g++' }}
         run: |
