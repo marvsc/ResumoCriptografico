@@ -75,7 +75,7 @@ jobs:
           cmake -S test_package -B test_package/build \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_PREFIX_PATH=$PWD/build/install \
-            -DCMAKE_TOOLCHAIN_FILE=test_package/build/Debug/generators/conan_toolchain.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake \
             -DCMAKE_CXX_FLAGS="${SAN_FLAGS}" \
             -DCMAKE_EXE_LINKER_FLAGS="${LINK_FLAGS}" \
             -DCMAKE_SHARED_LINKER_FLAGS="${LINK_FLAGS}" \
