@@ -31,32 +31,24 @@ jobs:
       - name: Install Conan dependencies
         env:
           SANITIZER: ${{ matrix.sanitizer }}
+          SAN_FLAGS: ${{
+          matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' ||
+          matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' ||
+          '-fsanitize=undefined -fno-sanitize-recover=undefined -g'
+          }}
+          LINK_FLAGS: ${{
+          matrix.sanitizer == 'asan' && '-fsanitize=address' ||
+          matrix.sanitizer == 'tsan' && '-fsanitize=thread' ||
+          '-fsanitize=undefined'
+          }}
+          CC: ${{ matrix.sanitizer == 'tsan' && 'clang' || 'gcc' }}
+          CXX: ${{ matrix.sanitizer == 'tsan' && 'clang++' || 'g++' }}
         run: |
           set -euo pipefail
           # clang é mais confiável para thread sanitizer
           if [ "${SANITIZER}" = "tsan" ]; then
             sudo apt-get install -y clang
-            export CC=clang
-            export CXX=clang++
           fi
-
-          # Define as flags dos sanitizers
-          case "${SANITIZER}" in
-            asan)
-              SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer -g"
-              LINK_FLAGS="-fsanitize=address"
-              ;;
-            tsan)
-              SAN_FLAGS="-fsanitize=thread -g"
-              LINK_FLAGS="-fsanitize=thread"
-              ;;
-            ubsan)
-              SAN_FLAGS="-fsanitize=undefined -fno-sanitize-recover=undefined -g"
-              LINK_FLAGS="-fsanitize=undefined"
-              ;;
-            *)
-              echo "Unknown sanitizer: ${SANITIZER}"; exit 1;;
-          esac
 
           echo "Sanitizer flags: ${SAN_FLAGS}"
 
@@ -76,6 +68,19 @@ jobs:
           cmake --install build --prefix build/install
 
       - name: Build and run test_package against installed package
+        env:
+          SAN_FLAGS: ${{
+          matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' ||
+          matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' ||
+          '-fsanitize=undefined -fno-sanitize-recover=undefined -g'
+          }}
+          LINK_FLAGS: ${{
+          matrix.sanitizer == 'asan' && '-fsanitize=address' ||
+          matrix.sanitizer == 'tsan' && '-fsanitize=thread' ||
+          '-fsanitize=undefined'
+          }}
+          CC: ${{ matrix.sanitizer == 'tsan' && 'clang' || 'gcc' }}
+          CXX: ${{ matrix.sanitizer == 'tsan' && 'clang++' || 'g++' }}
         run: |
           set -euo pipefail
 
