@@ -91,7 +91,9 @@ jobs:
           # Executa os testes unitários com os sanitizers habilitados
           if [ -x test_package/build/teste ]; then
             echo "Running test package executable teste"
-            ./test_package/build/teste || true
+            pushd test_package/build
+            ./teste || true
+            popd
           else
             echo "No test binary found; skipping run"
           fi
