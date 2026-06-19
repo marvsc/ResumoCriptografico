@@ -101,6 +101,8 @@ Gera resumo criptográfico SHA-512 de arquivo em disco.
 > O comando acima vai baixar e compilar todas as dependencias, compilar o projeto e executar os testes que são compostos de 2 executáveis. Um faz os testes unitários e o outro Obtém o resumo criptografico do arquivo /test_package/resources/arquivos/doc.txt e escreve no arquivo /test_package/resources/arquivos/resultado.txt. O resumo criptográfico é gerado utilizando algoritmo SHA-512.
 
 ## 🤞 Pipeline
+Os commits diretos no branch main do projeto estão bloqueados, portanto é necessário criar um branch a partir do main para commitar alterações e ao fim abrir um merge request. O merge request é validado por três pipeline que compila o projeto usando sanitizers ASAN, UBSAN e TSAN e executa o teste unitário. O merge só será liberado se essas pipelines passarem.
+
 Ao criar uma tag, duas pipelines são disparadas via github para gerar a release automaticamente e para publicar o pacote no repositório do conan (cloudsmith).
 
 ## ✅ Como usar
