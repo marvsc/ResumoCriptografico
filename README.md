@@ -107,4 +107,4 @@ Ao criar uma tag, duas pipelines são disparadas via github para gerar a release
 
 ## ✅ Como usar
 
-Adicionar a lib ao programa durante a compilação com o comando -lresumo.
+Adicionar a lib ao programa durante a compilação com o comando -lresumo. 
