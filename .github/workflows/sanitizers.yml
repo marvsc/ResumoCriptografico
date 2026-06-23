@@ -85,17 +85,18 @@ jobs:
             -DZLIB_DIR=../build/Debug/generators/ \
             -Dutf8proc_DIR=../build/Debug/generators/ \
             -DOpenSSL_DIR=../build/Debug/generators/ \
-            -Dresumo_DIR=build/cmake/ || true
-          cmake --build test_package/build -- -j$(nproc) || true
+            -Dresumo_DIR=build/cmake/
+          cmake --build test_package/build -- -j$(nproc)
 
           # Executa os testes unitários com os sanitizers habilitados
           if [ -x test_package/build/teste ]; then
             echo "Running test package executable teste"
             pushd test_package/build
-            ./teste || true
+            ./teste
             popd
           else
-            echo "No test binary found; skipping run"
+            echo "ERRO: No test binary found; skipping run"
+            exit 1
           fi
 
       - name: Upload sanitizer logs (if any)
