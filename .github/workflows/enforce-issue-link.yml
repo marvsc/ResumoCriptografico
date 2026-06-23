@@ -44,4 +44,3 @@ jobs:
             } else if (hasLinkedIssue) {
               core.info('✅ PR is properly linked via UI');
             }
- 
