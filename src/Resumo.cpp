@@ -2,22 +2,19 @@
 #include "Resumo.h"
 
 #include <fstream>
-#include <iostream>
-#include <sstream>
-#include <iomanip>
+#include <array>
 
 #include <Poco/File.h>
-#include <Poco/Path.h>
 
 #include <Poco/Crypto/DigestEngine.h>
 
 // Algoritmo a ser usado para obter o resumo criptográfico.
-#define MESSAGE_DIGEST_ALGORITHM "SHA512"
-#define BUFFER_SIZE 8192
+constexpr std::string_view MESSAGE_DIGEST_ALGORITHM = "SHA512";
+constexpr std::size_t BUFFER_SIZE = 8192;
 
 void Resumo::write_sha512_in_file(const std::string& output_file) const {
     // Verifica se o arquivo existe e abre em modo binário
-    Poco::File file(file_);
+    Poco::File file(file_path_);
     if (!file.exists() || !file.isFile()) {
         throw std::runtime_error("Arquivo inválido");
     }
@@ -30,11 +27,11 @@ void Resumo::write_sha512_in_file(const std::string& output_file) const {
     file_stream.exceptions(std::ios::badbit);
 
     // Define o algoritmo a ser utilizado
-    Poco::Crypto::DigestEngine sha512(MESSAGE_DIGEST_ALGORITHM);
+    Poco::Crypto::DigestEngine sha512(MESSAGE_DIGEST_ALGORITHM.data());
 
     // Atualiza o algoritmo com o conteúdo do arquivo lendo em blocos
     // para evitar carregar arquivos grandes inteiros em memória.
-    std::vector<char> buffer(BUFFER_SIZE);
+    std::array<char, BUFFER_SIZE> buffer;
     std::streamsize read_bytes;
     while (file_stream.read(buffer.data(), static_cast<std::streamsize>(BUFFER_SIZE)) ||
             (read_bytes = file_stream.gcount()) > 0) {
@@ -44,7 +41,6 @@ void Resumo::write_sha512_in_file(const std::string& output_file) const {
             sha512.update(buffer.data(), static_cast<std::size_t>(read_bytes));
         }
     }
-    file_stream.close();
     const Poco::DigestEngine::Digest& digest = sha512.digest();
 
     // Converte o digest para uma string hexadecimal
@@ -56,6 +52,5 @@ void Resumo::write_sha512_in_file(const std::string& output_file) const {
 
     // Escrever exatamente os bytes da string hexadecimal
     output.write(digest_hex.data(), static_cast<std::streamsize>(digest_hex.size()));
-    output.close();
 }
 

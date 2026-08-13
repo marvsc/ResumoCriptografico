@@ -5,11 +5,18 @@
  * @date 2026-01-27
  */
 
-#include<unistd.h>
+#include <getopt.h>
+#include <string>
+#include <cstdio>
+#include <cstdlib>
+#include <stdexcept>
 
-#include<string>
 #include "Resumo.h"
 
+/*
+ * Uso: ./example -i <arquivo_entrada> -o <arquivo_saída>
+ * Exemplo: ./example -i doc.txt -o doc.txt.sha512
+ */
 int main(const int argc, char* const argv[]) {
     int opt;
     std::string input_file("");
@@ -51,8 +58,14 @@ int main(const int argc, char* const argv[]) {
 
         // Gera o resumo criptográfico e escreve em disco
         resume.write_sha512_in_file(output_file);
-    } catch (std::exception& e) {
+    } catch (std::runtime_error& e) {
         std::printf("Erro de execução: %s\n", e.what());
+        return EXIT_FAILURE;
+    } catch (std::exception& e) {
+        std::printf("Erro inesperado: %s\n", e.what());
+        return EXIT_FAILURE;
+    } catch (...) {
+        std::printf("Erro genérico\n");
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;

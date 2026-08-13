@@ -29,10 +29,6 @@ jobs:
       - name: Install Conan dependencies
         env:
           SANITIZER: ${{ matrix.sanitizer }}
-          SAN_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' || matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' || '-fsanitize=undefined -fno-sanitize-recover=undefined -g' }}
-          LINK_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address' || matrix.sanitizer == 'tsan' && '-fsanitize=thread' || '-fsanitize=undefined' }}
-          CC: ${{ matrix.sanitizer == 'tsan' && 'clang' || 'gcc' }}
-          CXX: ${{ matrix.sanitizer == 'tsan' && 'clang++' || 'g++' }}
         run: |
           set -euo pipefail
           # clang é mais confiável para thread sanitizer
@@ -46,12 +42,7 @@ jobs:
           conan install . --build=missing -s build_type=Debug
 
           # Configura o projeto via cmake para passar as flags dos sanitizers
-          cmake -S . -B build \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake \
-            -DCMAKE_CXX_FLAGS="${SAN_FLAGS}" \
-            -DCMAKE_EXE_LINKER_FLAGS="${LINK_FLAGS}" \
-            -DCMAKE_SHARED_LINKER_FLAGS="${LINK_FLAGS}"
+          cmake -S . -B build --preset "${SANITIZER}-local"
 
           # Compila e instala o projeto
           cmake --build build -- -j$(nproc)
@@ -59,10 +50,7 @@ jobs:
 
       - name: Build and run test_package against installed package
         env:
-          SAN_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address -fno-omit-frame-pointer -g' || matrix.sanitizer == 'tsan' && '-fsanitize=thread -g' || '-fsanitize=undefined -fno-sanitize-recover=undefined -g' }}
-          LINK_FLAGS: ${{ matrix.sanitizer == 'asan' && '-fsanitize=address' || matrix.sanitizer == 'tsan' && '-fsanitize=thread' || '-fsanitize=undefined' }}
-          CC: ${{ matrix.sanitizer == 'tsan' && 'clang' || 'gcc' }}
-          CXX: ${{ matrix.sanitizer == 'tsan' && 'clang++' || 'g++' }}
+          SANITIZER: ${{ matrix.sanitizer }}
         run: |
           set -euo pipefail
 
@@ -70,20 +58,7 @@ jobs:
           conan install test_package --build=missing -s build_type=Debug
 
           # Configura e compila o pacote de testes
-          cmake -S test_package -B test_package/build \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_PREFIX_PATH=$PWD/build/install \
-            -DCMAKE_TOOLCHAIN_FILE=build/Debug/generators/conan_toolchain.cmake \
-            -DCMAKE_CXX_FLAGS="${SAN_FLAGS}" \
-            -DCMAKE_EXE_LINKER_FLAGS="${LINK_FLAGS}" \
-            -DCMAKE_SHARED_LINKER_FLAGS="${LINK_FLAGS}" \
-            -DPoco_DIR=../build/Debug/generators/ \
-            -DPCRE2_DIR=../build/Debug/generators/ \
-            -DBZip2_DIR=../build/Debug/generators/ \
-            -DZLIB_DIR=../build/Debug/generators/ \
-            -Dutf8proc_DIR=../build/Debug/generators/ \
-            -DOpenSSL_DIR=../build/Debug/generators/ \
-            -Dresumo_DIR=build/cmake/
+          cmake -S test_package -B test_package/build --preset "${SANITIZER}-local"
           cmake --build test_package/build -- -j$(nproc)
 
           # Executa os testes unitários com os sanitizers habilitados

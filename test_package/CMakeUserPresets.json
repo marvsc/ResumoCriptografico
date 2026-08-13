@@ -1,0 +1,63 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "build/Debug/generators/CMakePresets.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "asan-local",
+            "inherits": "conan-debug",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -g",
+                "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=address",
+                "CMAKE_SHARED_LINKER_FLAGS": "-fsanitize=address",
+                "Poco_DIR": "${sourceDir}/../build/Debug/generators/",
+                "PCRE2_DIR": "${sourceDir}/../build/Debug/generators/",
+                "BZip2_DIR": "${sourceDir}/../build/Debug/generators/",
+                "ZLIB_DIR": "${sourceDir}/../build/Debug/generators/",
+                "utf8proc_DIR": "${sourceDir}/../build/Debug/generators/",
+                "OpenSSL_DIR": "${sourceDir}/../build/Debug/generators/",
+                "resumo_DIR": "${sourceDir}/build/Debug/cmake/"
+            }
+        },
+        {
+            "name": "tsan-local",
+            "inherits": "conan-debug",
+            "environment": {
+                "CC": "clang",
+                "CXX": "clang++"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-fsanitize=thread -g",
+                "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=thread",
+                "CMAKE_SHARED_LINKER_FLAGS": "-fsanitize=thread",
+                "Poco_DIR": "${sourceDir}/../build/Debug/generators/",
+                "PCRE2_DIR": "${sourceDir}/../build/Debug/generators/",
+                "BZip2_DIR": "${sourceDir}/../build/Debug/generators/",
+                "ZLIB_DIR": "${sourceDir}/../build/Debug/generators/",
+                "utf8proc_DIR": "${sourceDir}/../build/Debug/generators/",
+                "OpenSSL_DIR": "${sourceDir}/../build/Debug/generators/",
+                "resumo_DIR": "${sourceDir}/build/Debug/cmake/"
+            }
+        },
+        {
+            "name": "usan-local",
+            "inherits": "conan-debug",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-fsanitize=undefined -fno-sanitize-recover=undefined -g",
+                "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=undefined",
+                "CMAKE_SHARED_LINKER_FLAGS": "-fsanitize=undefined",
+                "Poco_DIR": "${sourceDir}/../build/Debug/generators/",
+                "PCRE2_DIR": "${sourceDir}/../build/Debug/generators/",
+                "BZip2_DIR": "${sourceDir}/../build/Debug/generators/",
+                "ZLIB_DIR": "${sourceDir}/../build/Debug/generators/",
+                "utf8proc_DIR": "${sourceDir}/../build/Debug/generators/",
+                "OpenSSL_DIR": "${sourceDir}/../build/Debug/generators/",
+                "resumo_DIR": "${sourceDir}/build/Debug/cmake/"
+            }
+        }
+    ]
+}

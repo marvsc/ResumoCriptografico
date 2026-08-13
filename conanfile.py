@@ -11,7 +11,7 @@ class resumoRecipe(ConanFile):
     author = "Marcus Chaves"
     url = "git@github.com:marvsc/ResumoCriptografico.git"
     description = "Gera o resumo criptografico em SHA-512 do arquivo especificado em outro arquivo especificado"
-    topics = ("", "", "")
+    topics = ("criptografia", "hash", "sha512", "resumo", "checksum")
 
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
