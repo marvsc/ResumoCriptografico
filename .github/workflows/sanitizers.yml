@@ -36,8 +36,6 @@ jobs:
             sudo apt-get install -y clang
           fi
 
-          echo "Sanitizer flags: ${SAN_FLAGS}"
-
           # Instala pendencias e gera os toolchains do cmake através do conan
           conan install . --build=missing -s build_type=Debug
 
