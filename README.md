@@ -94,7 +94,7 @@ Gera resumo criptográfico SHA-512 de arquivo em disco.
 2. Criar o projeto utilizando conan:
 
     ```bash
-    conan create . --build=missing
+    conan create . --build=missing --version=v0.0.1
     ```
 
 > [!NOTE]
